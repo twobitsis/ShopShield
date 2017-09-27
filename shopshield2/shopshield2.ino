@@ -31,25 +31,23 @@ DHT dht(DHTPIN, DHTTYPE);
 
 // login info
 // Your network name and password.
-//char auth[] = "612039ff0bfb44ae8711375ede8ab307";
-//char auth[] = "041c0c7c1b054fad9cd79546dd9e1478";
-//char auth[] = "041c0c7c1b054fad9cd79546dd9e1478";
-char auth[] = "d3b4597285f94ce9ba1e230e55631bed";
+
+char auth[] = "******************ba1e230e55631bed";
 
 char ssid1[] = "PikachuWay";  // Home
-char pass1[] = "A512E316BA";
+char pass1[] = "A512E316";
 
 char ssid2[] = "PikachuWay_2GEXT"; // Shop
-char pass2[] = "A512E316BA";
+char pass2[] = "A512E316";
 
 char ssid3[] = "Note"; // Samsung note pad
-char pass3[] = "winter01";
+char pass3[] = "winter";
 
 char ssid4[] = "drtwo"; // Moto Phone
-char pass4[] = "winter59";
+char pass4[] = "winter";
 
 char ssid5[] = "outlander"; // Offline Router
-char pass5[] = "3032295507";
+char pass5[] = "2295507";
 
 //
 
