@@ -15,6 +15,7 @@
   07-15-17
   07-27-17
   09-13-17
+  9-29-17
 */
 
 // Lib
@@ -31,6 +32,8 @@ DHT dht(DHTPIN, DHTTYPE);
 
 // login info
 // Your network name and password.
+// lol, no, the passwords and auth are not valid
+//
 
 char auth[] = "******************ba1e230e55631bed";
 
@@ -47,7 +50,7 @@ char ssid4[] = "drtwo"; // Moto Phone
 char pass4[] = "winter";
 
 char ssid5[] = "outlander"; // Offline Router
-char pass5[] = "2295507";
+char pass5[] = "winter";
 
 //
 
@@ -96,6 +99,21 @@ void sendSensor()
   delay(500); // chill
 }
 
+void C_STATUS() 
+{
+  //  so user knows system status and the phone does not appear frozen
+  if (ledState == 0)
+  {
+    ledState = 255;
+  } else
+  { ledState = 0;
+  }
+  // Blink the "led" and update the time so user knows were live
+  Blynk.virtualWrite(V3, ledState);
+  Blynk.virtualWrite(V50, (millis() / 1000));
+}
+
+
 void HB()
 {
    // sent to 555 timer as a keep alive timer.
@@ -123,25 +141,19 @@ void button_PRESS()
     digitalWrite(10, HIGH);
     delay(1500);
     digitalWrite(10, LOW);
-    delay(5000);
+
+    for (int i=0; i < 10; i++){
+ // update heartbeat to keep timer alive
+    HB();
+    C_STATUS();
+    delay(1000);
+    } 
+    
+ //   delay(5000);
     Blynk.virtualWrite(V30, 0);
     Blynk.virtualWrite(V2, 0);
   }
-
-  //  float Door_statusV2 = (V2);
-  //  if (Door_statusV2 > 50)
-  //  {
-  //    Blynk.virtualWrite(V30, 100);
-  //    Blynk.virtualWrite(V2, 100);
-  //    digitalWrite(10, HIGH);
-  //    delay(1500);
-  //    digitalWrite(10, LOW);
-  //    delay(5000);
-  //    Blynk.virtualWrite(V30, 0);
-  //    Blynk.virtualWrite(V2, 0);
-  //  }
 }
-
 
 
 void setup()
@@ -190,18 +202,8 @@ void my1Events()
     netLogin();
   }
 
-  //  so user knows system status
-  if (ledState == 0)
-  {
-    ledState = 255;
-  } else
-  { ledState = 0;
-  }
-
-  // Blink the "led" and update the time so user knows were live
-  Blynk.virtualWrite(V3, ledState);
-  Blynk.virtualWrite(V50, (millis() / 1000));
-
+  //
+    C_STATUS();
   // Check door sensors
   float sensorGDvalue = digitalRead(5);
   if (sensorGDvalue == HIGH)
@@ -245,15 +247,16 @@ void my5Events()
     //  main math stub run every 10 seconds AFTER succesful login into internet then Blynk
     void my10Events()
     {
-      // voltage divider for battery.   Figure battery voltage and post here
+       // voltage divider for battery.   Figure battery voltage and post here
       float sensorValue = analogRead(A7);
-      sensorValue = (sensorValue * 2);
-      float voltage = (sensorValue * 3.3) / 1024.0;
-      voltage = ((voltage / 4.25 ) * 100);
+      sensorValue *= 2;
+      sensorValue *= 3.3; 
+      sensorValue /= 1024;
+      float voltage = ((sensorValue / 4.25 ) * 100);
       Blynk.virtualWrite(V4, voltage);
       sendSensor();
       delay(500); // Chill
-    }
+      }
 
 
 
